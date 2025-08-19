@@ -12,35 +12,45 @@
     gtag('js', new Date());
 
     const query = window.location.search;
-    const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
 
-    // Track the landing page hit (with UTMs)
-    gtag('config', 'G-9DH6CC2PRP', { page_path: window.location.pathname + query });
+    // CONFIG: send full URL with query to GA so it sees all UTMs
+    gtag('config', 'G-9DH6CC2PRP', {
+      'page_path': window.location.pathname + query
+    });
+
+    // Build redirect URL to your Google Form
+    const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
 
     let redirected = false;
 
-    function doRedirect() {
-      if (!redirected) {
-        redirected = true;
-        window.location.href = redirectUrl;
-      }
-    }
-
-    // Fire QR scan event
+    // Send QR scan event to GA with all UTM parameters
     gtag('event', 'qr_scan', {
       'utm_source': new URLSearchParams(query).get('utm_source') || '',
       'utm_medium': new URLSearchParams(query).get('utm_medium') || '',
       'utm_campaign': new URLSearchParams(query).get('utm_campaign') || '',
       'utm_content': new URLSearchParams(query).get('utm_content') || '',
       'utm_id': new URLSearchParams(query).get('utm_id') || '',
-      'event_callback': doRedirect
+      'event_callback': () => {
+        if (!redirected) {
+          redirected = true;
+          window.location.href = redirectUrl;
+        }
+      }
     });
 
-    // Safer fallback (1 second) to give GA time
-    setTimeout(doRedirect, 1000);
+    // Fallback redirect after 3 seconds in case event_callback doesn’t fire
+    setTimeout(() => {
+      if (!redirected) {
+        redirected = true;
+        window.location.href = redirectUrl;
+      }
+    }, 3000);
+
+    // Show user a message while redirecting
+    document.body.innerHTML = "<p>Redirecting… please wait.</p>";
   </script>
 </head>
-<body style="margin:0;padding:0;">
-  Redirecting you to the form...
+<body>
+  Redirecting…
 </body>
 </html>
