@@ -1,30 +1,42 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
 
-  // THIS LINE IS REQUIRED
-  gtag('config', 'G-9DH6CC2PRP');
+  <!-- GA4 tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DH6CC2PRP');
 
-  const query = window.location.search;
+    const query = window.location.search;
 
-  // Build redirect URL
-  const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
+    // Show user a small “Redirecting...” message
+    document.body.innerHTML = "<p>Redirecting… please wait.</p>";
 
-  // Send QR scan event
-  gtag('event', 'qr_scan', {
-    'utm_source': new URLSearchParams(query).get('utm_source') || '',
-    'utm_medium': new URLSearchParams(query).get('utm_medium') || '',
-    'utm_campaign': new URLSearchParams(query).get('utm_campaign') || '',
-    'utm_content': new URLSearchParams(query).get('utm_content') || '',
-    'utm_id': new URLSearchParams(query).get('utm_id') || '',
-    'event_callback': () => {
-      // Redirect after GA confirms the event
-      window.location.replace(redirectUrl);
-    }
-  });
+    // Send QR scan event
+    gtag('event', 'qr_scan', {
+      'utm_source': new URLSearchParams(query).get('utm_source') || '',
+      'utm_medium': new URLSearchParams(query).get('utm_medium') || '',
+      'utm_campaign': new URLSearchParams(query).get('utm_campaign') || '',
+      'utm_content': new URLSearchParams(query).get('utm_content') || '',
+      'utm_id': new URLSearchParams(query).get('utm_id') || '',
+      'event_callback': () => {
+        // Only redirect after GA confirms the event
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
+      }
+    });
 
-  // Fallback in case event_callback doesn’t fire (e.g., GA blocked)
-  setTimeout(() => { window.location.replace(redirectUrl); }, 1500);
-</script>
+    // Fallback in case event_callback doesn’t fire (e.g., network blocked)
+    setTimeout(() => {
+      window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
+    }, 4000); // give GA up to 4 seconds to fire
+  </script>
+</head>
+<body>
+  Redirecting…
+</body>
+</html>
