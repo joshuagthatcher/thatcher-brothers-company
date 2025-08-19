@@ -8,10 +8,23 @@
   const urlParams = new URLSearchParams(window.location.search);
   const qrSource = urlParams.get('utm_source') || 'default';
 
+  let redirected = false;
+
   gtag('event', 'qr_scan', {
     'qr_source': qrSource,
     'event_callback': function() {
-      window.location.replace("https://shorturl.at/TW2zG");
+      if (!redirected) {
+        redirected = true;
+        window.location.replace("https://shorturl.at/TW2zG");
+      }
     }
   });
+
+  // Safety net: redirect anyway after 1 second
+  setTimeout(() => {
+    if (!redirected) {
+      redirected = true;
+      window.location.replace("https://shorturl.at/TW2zG");
+    }
+  }, 1000);
 </script>
