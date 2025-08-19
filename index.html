@@ -1,10 +1,36 @@
-<script>
-  // Grab everything after ? in the GitHub URL (this includes your UTMs)
-  const query = window.location.search;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
 
-  // Append to your form URL
-  const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
+  <!-- GA4 tracking code -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  // Redirect immediately
-  window.location.replace(redirectUrl);
-</script>
+    // Grab UTMs from GitHub URL
+    const query = window.location.search; // ?utm_source=...&utm_content=...
+
+    // Optional: log a custom event in GA for this QR scan
+    gtag('event', 'qr_scan', {
+      'utm_source': new URLSearchParams(query).get('utm_source') || '',
+      'utm_medium': new URLSearchParams(query).get('utm_medium') || '',
+      'utm_campaign': new URLSearchParams(query).get('utm_campaign') || '',
+      'utm_content': new URLSearchParams(query).get('utm_content') || '',
+      'utm_id': new URLSearchParams(query).get('utm_id') || ''
+    });
+
+    // Redirect after a short delay (e.g., 300ms)
+    setTimeout(() => {
+      const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
+      window.location.replace(redirectUrl);
+    }, 300); // 0.3 second delay gives GA time to send event
+  </script>
+</head>
+<body>
+  Redirecting...
+</body>
+</html>
