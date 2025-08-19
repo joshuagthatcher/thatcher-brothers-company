@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Redirecting...</title>
+  <title></title>
 
   <!-- GA4 tracking code -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
@@ -12,18 +12,14 @@
     gtag('js', new Date());
 
     const query = window.location.search;
-
-    // CONFIG: send full URL with query to GA so it sees all UTMs
-    gtag('config', 'G-9DH6CC2PRP', {
-      'page_path': window.location.pathname + query
-    });
-
-    // Build redirect URL to your Google Form
     const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
+
+    // Tell GA the full URL so it sees all UTMs
+    gtag('config', 'G-9DH6CC2PRP', { page_path: window.location.pathname + query });
 
     let redirected = false;
 
-    // Send QR scan event to GA with all UTM parameters
+    // Send QR scan event
     gtag('event', 'qr_scan', {
       'utm_source': new URLSearchParams(query).get('utm_source') || '',
       'utm_medium': new URLSearchParams(query).get('utm_medium') || '',
@@ -38,19 +34,14 @@
       }
     });
 
-    // Fallback redirect after 3 seconds in case event_callback doesn’t fire
+    // Ultra-fast fallback redirect if event_callback fails
     setTimeout(() => {
       if (!redirected) {
         redirected = true;
         window.location.href = redirectUrl;
       }
-    }, 3000);
-
-    // Show user a message while redirecting
-    document.body.innerHTML = "<p>Redirecting… please wait.</p>";
+    }, 300); // 0.3 seconds
   </script>
 </head>
-<body>
-  Redirecting…
-</body>
+<body style="margin:0;padding:0;"></body>
 </html>
