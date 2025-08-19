@@ -1,30 +1,10 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9DH6CC2PRP');
+  // Grab everything after ? in the GitHub URL (this includes your UTMs)
+  const query = window.location.search;
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const qrSource = urlParams.get('utm_source') || 'default';
+  // Append to your form URL
+  const redirectUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform" + query;
 
-  let redirected = false;
-
-  gtag('event', 'qr_scan', {
-    'qr_source': qrSource,
-    'event_callback': function() {
-      if (!redirected) {
-        redirected = true;
-        window.location.replace("https://shorturl.at/TW2zG");
-      }
-    }
-  });
-
-  // Safety net: redirect anyway after 1 second
-  setTimeout(() => {
-    if (!redirected) {
-      redirected = true;
-      window.location.replace("https://shorturl.at/TW2zG");
-    }
-  }, 1000);
+  // Redirect immediately
+  window.location.replace(redirectUrl);
 </script>
