@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Redirecting...</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9DH6CC2PRP');
 
-  <!-- GA4 tracking code -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    
-    // Track QR scan
-    const urlParams = new URLSearchParams(window.location.search);
-    const qrSource = urlParams.get('source') || 'default';
-    gtag('event', 'qr_scan', {
-      'qr_source': qrSource
-    });
+  const urlParams = new URLSearchParams(window.location.search);
+  const qrSource = urlParams.get('utm_source') || 'default';
 
-    // Redirect immediately to Google Form
-    window.location.replace("https://shorturl.at/TW2zG");
-  </script>
-</head>
-<body>
-  Redirecting...
-</body>
-</html>
-
-
+  gtag('event', 'qr_scan', {
+    'qr_source': qrSource,
+    'event_callback': function() {
+      window.location.replace("https://shorturl.at/TW2zG");
+    }
+  });
+</script>
