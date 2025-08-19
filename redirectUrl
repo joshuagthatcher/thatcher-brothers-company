@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+
+  <!-- GA4 tracking code -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DH6CC2PRP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    // Track QR scan
+    const urlParams = new URLSearchParams(window.location.search);
+    const qrSource = urlParams.get('source') || 'default';
+    gtag('event', 'qr_scan', {
+      'qr_source': qrSource
+    });
+  </script>
+
+  <!-- Redirect immediately to Google Form -->
+  <meta http-equiv="refresh" content="0; URL='https://docs.google.com/forms/d/e/1FAIpQLSeRrEb1b2lgd1_b8mjU62tjvZrM6DUJ9gcxbMXA392msS_5OA/viewform'" />
+</head>
+<body>
+  Redirecting...
+</body>
+</html>
+
